@@ -23,27 +23,29 @@ onMounted(() => {
   var menuBtn = document.getElementById("menuBtn");
   var navBar = document.getElementById("navBar");
   var header = document.getElementById("header")
-  if (menuBtn && header && navBar) {
+  if (menuBtn && header) {    //menuBtn与header有对象，下同
     menuBtn.onmouseover = () => {
-      if (wWidth >= 800) {
-        navBar.style.left = "0px"
-        navBar.style.boxShadow = "1px 1px 10px grey"
-      } else {
-        navBar.style.height = "100px"
-        navBar.style.top = "0px"
-        navBar.style.boxShadow = "1px 1px 10px grey"
-      }
+      if (navBar)             //navBar有对象，下同
+        if (wWidth >= 800) {
+          navBar.style.left = "0px"
+          navBar.style.boxShadow = "1px 1px 10px grey"
+        } else {
+          navBar.style.height = "100px"
+          navBar.style.top = "0px"
+          navBar.style.boxShadow = "1px 1px 10px grey"
+        }
 
     }
     header.onmouseleave = () => {
-      if (document.documentElement.clientWidth >= 800) {
-        navBar.style.left = "-150px"
-        navBar.style.boxShadow = ""
-      } else {
-        navBar.style.height = "0px"
-        navBar.style.top = "-20px"
-        navBar.style.boxShadow = ""
-      }
+      if (navBar)
+        if (document.documentElement.clientWidth >= 800) {
+          navBar.style.left = "-150px"
+          navBar.style.boxShadow = ""
+        } else {
+          navBar.style.height = "0px"
+          navBar.style.top = "-20px"
+          navBar.style.boxShadow = ""
+        }
     }
   }
 })
@@ -52,7 +54,8 @@ onMounted(() => {
 
 <template>
   <header id="header">
-    <div id="menuBtn" style="position: absolute;top: 20px;left: 20px;z-index: 9;font-weight: 800;font-size: 1.5rem;">⌂</div>
+    <div id="menuBtn" style="position: absolute;top: 20px;left: 20px;z-index: 9;font-weight: 800;font-size: 1.5rem;">⌂
+    </div>
     <div class="wrapper" id="navBar">
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -62,8 +65,8 @@ onMounted(() => {
   </header>
   <div id="bgContainer">
     <div id="bg" :style="{
-      background: 'linear-gradient('+degp+'deg, #833ab4, rgba(255, 0, 0, 0) ' + widthXp + 'px),' +
-        'linear-gradient('+deg+'deg, #fd1d1d, rgba(255, 0, 0, 0) ' + widthX + 'px),' + 'linear-gradient('+degc+'deg, #fcb045, rgba(255, 0, 0, 0) ' + widthXc + 'px)'
+      background: 'linear-gradient(' + degp + 'deg, #833ab4, rgba(255, 0, 0, 0) ' + widthXp + 'px),' +
+        'linear-gradient(' + deg + 'deg, #fd1d1d, rgba(255, 0, 0, 0) ' + widthX + 'px),' + 'linear-gradient(' + degc + 'deg, #fcb045, rgba(255, 0, 0, 0) ' + widthXc + 'px)'
     }"></div>
   </div>
   <div id="router" @mousemove="onMousemove">
