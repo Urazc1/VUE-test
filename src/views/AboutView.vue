@@ -29,7 +29,7 @@ function itemDelete(list: { msg: string; }) {
 }
 
 function get() {
-  axios.get('http://127.0.0.1/user').then(res => {
+  axios.get('http://127.0.0.1:7998/user').then(res => {
     console.log(res.data);
     rest.value = res.data
   }).catch(err => {
