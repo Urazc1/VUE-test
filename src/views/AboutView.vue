@@ -4,10 +4,10 @@ import axios from "axios"
 defineProps({
   msgFrom: String
 })
-onBeforeMount (() => {
-  get()
+onBeforeMount(() => {
+  returnV.value = get()
 })
-
+const returnV = ref()
 const rest = ref()
 const lists = ref(
   [
@@ -28,13 +28,19 @@ function itemDelete(list: { msg: string; }) {
   }
 }
 
-function get() {
-  axios.get('http://127.0.0.1:7998/user').then(res => {
-    console.log(res.data);
-    rest.value = res.data
-  }).catch(err => {
-    console.log("获取数据失败" + err);
-  })
+async function get() {
+  let fetch = () => {
+    return new Promise(resolve => {
+      axios.get('http://106.54.223.94:7998/user').then(res => {
+        console.log(res.data);
+        resolve(res.data);
+      }).catch(err => {
+        console.log("获取数据失败" + err);
+      })
+    })
+  }
+  let result = await fetch();
+  return result
 }
 </script>
 
@@ -44,8 +50,9 @@ function get() {
       <h1>This is an about page</h1>
     </div>
     <div style="position: relative;top: 300px;">
+      <h1>{{ returnV }}</h1>
       <TransitionGroup name="list" tag="ul">
-        <div class="listDiv" v-for="(list,index) in rest" :key="index">
+        <div class="listDiv" v-for="(list, index) in rest" :key="index">
           {{ list.id }} | {{ list.name }}
         </div>
       </TransitionGroup>

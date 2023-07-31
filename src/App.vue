@@ -34,7 +34,6 @@ onMounted(() => {
           navBar.style.top = "0px"
           navBar.style.boxShadow = "1px 1px 10px grey"
         }
-
     }
     header.onmouseleave = () => {
       if (navBar)
