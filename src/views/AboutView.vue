@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onBeforeMount, onMounted, onServerPrefetch, ref } from 'vue';
+import axios from "axios"
 defineProps({
   msgFrom: String
 })
+onBeforeMount (() => {
+  get()
+})
+
+const rest = ref()
 const lists = ref(
   [
     { msg: '564545645' },
@@ -15,12 +21,21 @@ function itemAdd() {
   lists.value.splice(i, 0, { msg: length })
   length++;
 }
-
 function itemDelete(list: { msg: string; }) {
   const i = lists.value.indexOf(list)
   if (i > -1) {
     lists.value.splice(i, 1)
   }
+}
+
+function get() {
+  let a = ""
+  axios.get('http://127.0.0.1/user').then(res => {
+    console.log(res.data);
+    rest.value = res.data
+  }).catch(err => {
+    console.log("获取数据失败" + err);
+  })
 }
 </script>
 
@@ -28,12 +43,12 @@ function itemDelete(list: { msg: string; }) {
   <div class="about" style="position: absolute;height: 100%;">
     <div style="position: relative;top: 200px;">
       <h1>This is an about page</h1>
-      <button @click="itemAdd">click to add</button>
     </div>
     <div style="position: relative;top: 300px;">
+      <div> {{ resta }}</div>
       <TransitionGroup name="list" tag="ul">
-        <div class="listDiv" v-for="(list, index) in lists" :key="list" @click="itemDelete(list)">
-          {{ index + 1 }} . {{ list.msg }}
+        <div class="listDiv" v-for="(list,index) in rest" :key="index">
+          {{ list.id }} | {{ list.name }}
         </div>
       </TransitionGroup>
     </div>
@@ -90,7 +105,7 @@ about {
 .list-enter-from,
 .list-leave-to {
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateY(20px);
 }
 
 .list-leave-active {

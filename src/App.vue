@@ -11,7 +11,7 @@ const degc = ref(1080)
 const wWidth = document.documentElement.clientWidth
 const wHeight = document.documentElement.clientHeight
 function onMousemove(e: { clientX: number; clientY: number; }) {
-  widthX.value = (e.clientX / 1920 + 0.4) * wWidth;
+  widthX.value = (e.clientX / wWidth + 0.4) * wWidth;
   widthXp.value = ((wWidth - e.clientX) / wWidth + 0.4) * wWidth;
   widthXc.value = ((wWidth - e.clientX) / wWidth + 1) * wWidth;
   deg.value = e.clientY / wHeight * 360;
