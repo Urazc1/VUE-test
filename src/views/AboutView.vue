@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeMount, onMounted, onServerPrefetch, ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import axios from "axios"
 defineProps({
   msgFrom: String
@@ -18,7 +18,7 @@ const lists = ref(
 let length = lists.value.length + 1;
 function itemAdd() {
   const i = Math.round(Math.random() * lists.value.length)
-  lists.value.splice(i, 0, { msg: length })
+  lists.value.splice(i, 0, { msg: length.toLocaleString() })
   length++;
 }
 function itemDelete(list: { msg: string; }) {
@@ -29,7 +29,6 @@ function itemDelete(list: { msg: string; }) {
 }
 
 function get() {
-  let a = ""
   axios.get('http://127.0.0.1/user').then(res => {
     console.log(res.data);
     rest.value = res.data
@@ -45,7 +44,6 @@ function get() {
       <h1>This is an about page</h1>
     </div>
     <div style="position: relative;top: 300px;">
-      <div> {{ resta }}</div>
       <TransitionGroup name="list" tag="ul">
         <div class="listDiv" v-for="(list,index) in rest" :key="index">
           {{ list.id }} | {{ list.name }}
