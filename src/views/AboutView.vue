@@ -1,32 +1,14 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue';
 import axios from "axios"
-defineProps({
-  msgFrom: String
-})
-onBeforeMount(() => {
-  returnV.value = get()
-})
-const returnV = ref()
+
+const hint = ref("Loading...")
+const hintShow = ref(true)
 const rest = ref()
-const lists = ref(
-  [
-    { msg: '564545645' },
-    { msg: 'Bar' }
-  ]
-)
-let length = lists.value.length + 1;
-function itemAdd() {
-  const i = Math.round(Math.random() * lists.value.length)
-  lists.value.splice(i, 0, { msg: length.toLocaleString() })
-  length++;
-}
-function itemDelete(list: { msg: string; }) {
-  const i = lists.value.indexOf(list)
-  if (i > -1) {
-    lists.value.splice(i, 1)
-  }
-}
+
+onBeforeMount(async () => {
+  rest.value = await get()
+})
 
 async function get() {
   let fetch = () => {
@@ -34,13 +16,14 @@ async function get() {
       axios.get('http://106.54.223.94:7998/user').then(res => {
         console.log(res.data);
         resolve(res.data);
+        hintShow.value = false
       }).catch(err => {
         console.log("获取数据失败" + err);
+        hint.value = err
       })
     })
   }
-  let result = await fetch();
-  return result
+  return await fetch()
 }
 </script>
 
@@ -50,7 +33,7 @@ async function get() {
       <h1>This is an about page</h1>
     </div>
     <div style="position: relative;top: 300px;">
-      <h1>{{ returnV }}</h1>
+      <h3 v-show="hintShow">{{ hint }}</h3>
       <TransitionGroup name="list" tag="ul">
         <div class="listDiv" v-for="(list, index) in rest" :key="index">
           {{ list.id }} | {{ list.name }}
@@ -71,8 +54,9 @@ about {
   display: flex;
   width: 100%;
   border-bottom: 1px solid grey;
-
+  border-radius: 5px;
   transition: 0.5s;
+  overflow: hidden;
 }
 
 .listDiv:hover {
@@ -80,7 +64,7 @@ about {
 }
 
 .listDiv::after {
-  content: '|';
+  content: '\A';
   position: absolute;
   left: 0;
   margin: auto;
