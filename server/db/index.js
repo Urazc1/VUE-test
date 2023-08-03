@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 let mysql = require('mysql')
 
 let db = mysql.createPool({
