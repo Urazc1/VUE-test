@@ -2,29 +2,34 @@
 import { onBeforeMount, onMounted, ref } from 'vue';
 import axios from "axios"
 import loading from '../components/LoadingWindow.vue'
-
-const hint = ref("Loading...")
-const rest = ref()
+import errorMsg from '../components/ErrorMessage.vue'
+const res = ref()
 const loadStatus = ref(false)
+const errShow = ref(false)
+const errMsg = ref("Unknown Error")
 onBeforeMount(async () => {
-  rest.value = await get()
+  res.value = await get()
 })
 onMounted(() => {
   loadStatus.value = true
 })
 
 async function get() {
-  
   let fetch = () => {
-
     return new Promise(resolve => {
       axios.get('https://106.54.223.94:7998/user').then(res => {
         console.log(res.data);
         resolve(res.data)
         loadStatus.value = false
+        
       }).catch(err => {
         console.log("获取数据失败" + err);
-        hint.value = err
+        loadStatus.value = false
+        errShow.value = true
+        setTimeout(() => {
+          errMsg.value = err
+          errShow.value = false
+        },2000)
       })
     })
   }
@@ -39,13 +44,14 @@ async function get() {
     </div>
     <div style="position: relative;top: 300px;">
       <TransitionGroup name="list">
-        <div class="listDiv" v-for="(list, index) in rest" :key="index">
+        <div class="listDiv" v-for="(list, index) in res" :key="index">
           {{ list.id }} | {{ list.name }}
         </div>
       </TransitionGroup>
     </div>
     <Teleport to="body">
-      <loading v-show = "loadStatus"/>
+      <loading v-show="loadStatus" />
+      <errorMsg v-show="errShow" :msg=errMsg />
     </Teleport>
   </div>
 </template>
@@ -77,7 +83,7 @@ about {
   left: 0;
   margin: auto;
   background: linear-gradient(90deg, rgb(195, 255, 235), transparent);
-  
+
 
   width: 0%;
   height: 2rem;
@@ -87,11 +93,12 @@ about {
 }
 
 .listDiv:hover::after {
-  background-clip:content-box;
+  background-clip: content-box;
   width: 100%;
   z-index: -5;
   opacity: 1;
 }
+
 /*******************/
 /*** Transitions ***/
 /*******************/
@@ -117,9 +124,11 @@ about {
 .hint-leave-active {
   transition: 1s ease;
 }
+
 .hint-leave-from {
   filter: blur(0px);
 }
+
 .hint-leave-to {
   filter: blur(5px);
   opacity: 0;
