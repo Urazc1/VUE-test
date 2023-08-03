@@ -13,6 +13,7 @@ onMounted(() => {
   loadStatus.value = true
 })
 
+<<<<<<< HEAD
 async function get() {
   
   let fetch = () => {
@@ -29,6 +30,15 @@ async function get() {
     })
   }
   return await fetch()
+=======
+function get() {
+  axios.get('http://106.54.223.94:7998/user').then(res => {
+    console.log(res.data);
+    rest.value = res.data
+  }).catch(err => {
+    console.log("获取数据失败" + err);
+  })
+>>>>>>> 8510729 (jjjjj)
 }
 </script>
 
