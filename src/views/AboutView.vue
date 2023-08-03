@@ -3,10 +3,12 @@ import { onBeforeMount, onMounted, ref } from 'vue';
 import axios from "axios"
 import loading from '../components/LoadingWindow.vue'
 import errorMsg from '../components/ErrorMessage.vue'
+
 const res = ref()
 const loadStatus = ref(false)
 const errShow = ref(false)
 const errMsg = ref("Unknown Error")
+
 onBeforeMount(async () => {
   res.value = await get()
 })
@@ -21,7 +23,6 @@ async function get() {
         console.log(res.data);
         resolve(res.data)
         loadStatus.value = false
-        
       }).catch(err => {
         console.log("获取数据失败" + err);
         loadStatus.value = false

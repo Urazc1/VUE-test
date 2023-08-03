@@ -24,6 +24,7 @@ div {
 	justify-content: center;
 	align-items: center;
 	box-shadow: 1px 1px 5px black;
+	border-radius: 0 0 10px 10px;
 }
 
 /** PC */
