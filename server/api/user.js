@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-let db = require('../db/index')
+const db = require('../db/index')
 
 exports.get = (req, res) => {
     var sql = 'select * from testTable'

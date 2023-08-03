@@ -18,7 +18,7 @@ async function get() {
   let fetch = () => {
 
     return new Promise(resolve => {
-      axios.get('http://106.54.223.94:7998/user').then(res => {
+      axios.get('https://106.54.223.94:7998/user').then(res => {
         console.log(res.data);
         resolve(res.data)
         loadStatus.value = false
