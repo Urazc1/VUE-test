@@ -64,8 +64,8 @@ onMounted(() => {
   </header>
   <div id="bgContainer">
     <div id="bg" :style="{
-      background: 'linear-gradient(' + degp + 'deg, #833ab4, rgba(255, 0, 0, 0) ' + widthXp + 'px),' +
-        'linear-gradient(' + deg + 'deg, #fd1d1d, rgba(255, 0, 0, 0) ' + widthX + 'px),' + 'linear-gradient(' + degc + 'deg, #fcb045, rgba(255, 0, 0, 0) ' + widthXc + 'px)'
+      background: 'linear-gradient(' + degp + 'deg, #40E0D0, transparent ' + widthXp + 'px),' +
+        'linear-gradient(' + deg + 'deg, #FF8C00, transparent ' + widthX + 'px),' + 'linear-gradient(' + degc + 'deg, #FF0080, transparent ' + widthXc + 'px)'
     }"></div>
   </div>
   <div id="router" @mousemove="onMousemove">
