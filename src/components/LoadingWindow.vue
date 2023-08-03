@@ -11,19 +11,19 @@
 	position: fixed;
 	top: 0;
 	bottom: 0px;
-	left: 0;
+	left: 0px;
 	right: 0;
 	margin: auto;
 	width: 120px;
 	height: 120px;
-	background: #3a3a3ad0;
+	background: #3a3a3a71;
 	border-radius: 10px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
 	border: 1px solid violet;
-	
+	backdrop-filter: saturate(10%) blur(3px);
 	z-index: 5;
 }
 .window-enter-active,
