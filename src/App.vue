@@ -59,6 +59,7 @@ onMounted(() => {
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/login">login</RouterLink>
       </nav>
     </div>
   </header>
@@ -130,6 +131,8 @@ onMounted(() => {
     height: 100%;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    width: 120px;
   }
 
   header {
