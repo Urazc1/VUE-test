@@ -1,16 +1,31 @@
 <script setup lang="ts">
 import axios from "axios"
 import { onBeforeMount, ref } from "vue";
-
+import errorMsg from "@/components/ErrorMessage.vue";
 let userName = "";
 let passWord = "";
+const errMsg = ref("")
+const errShow = ref(false)
 const nickName = ref();
+const res = ref();
 onBeforeMount(async () => {
 
 })
+function error(err: string) {
+	errShow.value = true
+	errMsg.value = err
+	setTimeout(() => {
+		errShow.value = false
+	}, 2000)
+}
 
 async function login() {
-	let result = await post()
+	if (userName == "") error("Please enter username")
+	else if (passWord == "") error("Please enter password")
+	else {
+		let result = await post()
+		res.value = result
+	}
 }
 
 async function post() {
@@ -33,14 +48,17 @@ async function post() {
 
 <template>
 	<div id="canvas">
-		<h1>{{ nickName }}</h1>
-		<div id="window">
+		<h1>{{ res }}</h1>
+		<div id="login">
 			<div>
 				<input v-model="userName" />
 				<input type="password" v-model="passWord" />
 				<button @click="login">Login</button>
 			</div>
 		</div>
+		<Teleport to="body">
+			<errorMsg v-show="errShow" :msg=errMsg />
+		</Teleport>
 	</div>
 </template>
 
@@ -78,7 +96,7 @@ input::after {
 	align-items: center;
 }
 
-#window {
+#login {
 	background-color: transparent;
 	display: flex;
 	width: 300px;
@@ -91,6 +109,7 @@ input::after {
 	align-items: center;
 }
 
-#window div {
+#login div {
 	border-radius: 10px;
-}</style>
+}
+</style>

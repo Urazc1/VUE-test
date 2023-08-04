@@ -2,59 +2,16 @@
 import { onMounted, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 
-const widthX = ref(1920)
-const widthXp = ref(1920)
-const widthXc = ref(1920)
-const deg = ref(1080)
-const degp = ref(1080)
-const degc = ref(1080)
-const wWidth = document.documentElement.clientWidth
-const wHeight = document.documentElement.clientHeight
-function onMousemove(e: { clientX: number; clientY: number; }) {
-  widthX.value = (e.clientX / wWidth + 0.4) * wWidth;
-  widthXp.value = ((wWidth - e.clientX) / wWidth + 0.4) * wWidth;
-  widthXc.value = ((wWidth - e.clientX) / wWidth + 1) * wWidth;
-  deg.value = e.clientY / wHeight * 360;
-  degp.value = e.clientY / wHeight * 200;
-  degc.value = e.clientY / wHeight * 45;
-}
+
 
 onMounted(() => {
-  var menuBtn = document.getElementById("menuBtn");
-  var navBar = document.getElementById("navBar");
-  var header = document.getElementById("header")
-  if (menuBtn && header) {    //menuBtn与header有对象，下同
-    menuBtn.onmouseover = () => {
-      if (navBar)             //navBar有对象，下同
-        if (wWidth >= 800) {
-          navBar.style.left = "0px"
-          navBar.style.boxShadow = "1px 1px 10px grey"
-        } else {
-          navBar.style.height = "100px"
-          navBar.style.top = "0px"
-          navBar.style.boxShadow = "1px 1px 10px grey"
-        }
-    }
-    header.onmouseleave = () => {
-      if (navBar)
-        if (document.documentElement.clientWidth >= 800) {
-          navBar.style.left = "-150px"
-          navBar.style.boxShadow = ""
-        } else {
-          navBar.style.height = "0px"
-          navBar.style.top = "-20px"
-          navBar.style.boxShadow = ""
-        }
-    }
-  }
+  
 })
 
 </script>
 
 <template>
   <header id="header">
-    <div id="menuBtn" style="position: absolute;top: 20px;left: 20px;z-index: 9;font-weight: 800;font-size: 1.5rem;">⌂
-    </div>
     <div id="navBar">
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -64,12 +21,9 @@ onMounted(() => {
     </div>
   </header>
   <div id="bgContainer">
-    <div id="bg" :style="{
-      background: 'linear-gradient(' + degp + 'deg, #40E0D0, transparent ' + widthXp + 'px),' +
-        'linear-gradient(' + deg + 'deg, #FF8C00, transparent ' + widthX + 'px),' + 'linear-gradient(' + degc + 'deg, #FF0080, transparent ' + widthXc + 'px)'
-    }"></div>
+    <div id="bg" style="background: white"></div>
   </div>
-  <div id="router" @mousemove="onMousemove">
+  <div id="router">
     <RouterView v-slot="{ Component }">
       <Transition name="fade" mode="out-in">
         <component :is="Component" />
@@ -83,6 +37,20 @@ onMounted(() => {
 
 
 <style scoped>
+#router {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    filter: blur(0px);
+    padding-top: 0px;
+    overflow: scroll;
+}
 #bgContainer {
   position: absolute;
   overflow: hidden;
@@ -106,35 +74,43 @@ onMounted(() => {
 }
 
 @media (min-width: 768px) {
-
   #router {
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: flex;
-    width: 100%;
-    height: 100%;
     align-items: center;
     justify-content: center;
     z-index: 0;
     filter: blur(0px);
-    padding-top: 0px;
-    overflow: hidden;
   }
-
   #navBar {
     position: fixed;
     top: 0;
-    left: -150px;
+    left: 0px;
     transition: 0.7s;
-    background: rgb(217, 255, 244);
-    height: 100%;
+    background: transparent;
+    height: 65px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    width: 120px;
+    width: 100%;
+    overflow: hidden;
   }
-
+  #navBar::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backdrop-filter: saturate(150%) blur(5px);
+    backdrop-filter: saturate(190%) blur(5px);
+    backface-visibility: hidden;
+    z-index: -1;
+    top: -1px;
+    box-shadow: 1px 1px 5px grey;
+  }
+  nav {
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+    background: transparent;
+  }
   header {
     line-height: 1.5;
     top: 0;
@@ -144,33 +120,21 @@ onMounted(() => {
     width: 100px;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
-
   }
-
-  nav {
-    width: 100%;
-    font-size: 12px;
-    text-align: center;
-    margin-top: 2rem;
-    margin-left: -1rem;
-    padding: 1rem 0;
-  }
-
 }
 
 @media (max-width: 767px) {
   #navBar {
     position: fixed;
-    top: -20px;
+    top: 0px;
     left: 0;
     transition: 0.7s;
     width: 100%;
-    background: rgb(217, 255, 244);
-    height: 0px;
+    background: transparent;
+    height: 50px;
     display: flex;
     align-items: center;
   }
-
   header {
     width: 100%;
     position: fixed;
@@ -178,17 +142,15 @@ onMounted(() => {
     top: 0;
     z-index: 1;
   }
-
   nav {
     width: 100%;
     font-size: 12px;
     text-align: center;
   }
-
   #router {
     display: block;
     width: 100%;
-    overflow: hidden;
+    overflow-y: scroll;
   }
 }
 

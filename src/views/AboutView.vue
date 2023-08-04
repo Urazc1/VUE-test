@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onBeforeMount, onMounted, ref } from 'vue';
 import axios from "axios"
-import loading from '../components/LoadingWindow.vue'
-import errorMsg from '../components/ErrorMessage.vue'
+import loading from '@/components/LoadingWindow.vue'
+import errorMsg from '@/components/ErrorMessage.vue'
 
 const res = ref()
 const loadStatus = ref(false)
@@ -19,7 +19,7 @@ onMounted(() => {
 async function get() {
   let fetch = () => {
     return new Promise(resolve => {
-      axios.get('https://106.54.223.94:7998/user').then(res => {
+      axios.get('https://localhost:7998/user').then(res => {
         console.log(res.data);
         resolve(res.data)
         loadStatus.value = false
@@ -27,8 +27,8 @@ async function get() {
         console.log("获取数据失败" + err);
         loadStatus.value = false
         errShow.value = true
+        errMsg.value = err
         setTimeout(() => {
-          errMsg.value = err
           errShow.value = false
         },2000)
       })

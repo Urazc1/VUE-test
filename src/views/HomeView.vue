@@ -15,6 +15,9 @@ onMounted(() => {
       <p style="font-size: 8rem;text-shadow: 5px 7px 12px rgb(182, 182, 182)"> Hello </p>
       <p style="position: absolute;bottom: 0;left: 0;">{{ msg }}</p>
     </div>
+    <div id="img">
+      <img src="../assets/landscape_230807.jpg">
+    </div>
   </div>
 </template>
 
@@ -27,4 +30,23 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
 }
-</style>
+
+#img {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  z-index: -999;
+}
+
+@media (min-width: 768px) {
+  #img, img {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  #img,img {
+    height: 100%;
+  }
+}</style>
