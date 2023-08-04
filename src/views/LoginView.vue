@@ -70,7 +70,6 @@ input {
 	background: transparent;
 	border: none;
 	border-bottom: 2px solid green;
-
 }
 
 input:focus {
