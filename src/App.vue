@@ -55,7 +55,7 @@ onMounted(() => {
   <header id="header">
     <div id="menuBtn" style="position: absolute;top: 20px;left: 20px;z-index: 9;font-weight: 800;font-size: 1.5rem;">⌂
     </div>
-    <div class="wrapper" id="navBar">
+    <div id="navBar">
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
@@ -156,13 +156,6 @@ onMounted(() => {
     padding: 1rem 0;
   }
 
-
-  .wrapper {
-    position: fixed;
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
 }
 
 @media (max-width: 767px) {

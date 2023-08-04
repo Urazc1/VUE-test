@@ -11,8 +11,6 @@ onBeforeMount(async () => {
 
 async function login() {
 	let result = await post()
-	if (result.code == '1')
-		nickName.value = result.nickname
 }
 
 async function post() {
@@ -47,6 +45,32 @@ async function post() {
 </template>
 
 <style scoped>
+input {
+	position: relative;
+	width: 80%;
+	height: 30px;
+	background: transparent;
+	border: none;
+	border-bottom: 2px solid green;
+
+}
+
+input:focus {
+	outline: none;
+}
+
+input::after {
+	content: '544354';
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-top: 2px solid red;
+	width: 100%;
+	height: 30px;
+	background: pink;
+	z-index: 5;
+}
+
 #canvas {
 	position: absolute;
 	display: flex;
@@ -56,14 +80,17 @@ async function post() {
 
 #window {
 	background-color: transparent;
-	display: block;
+	display: flex;
 	width: 300px;
 	height: 230px;
-	border: 10000px solid rgba(255, 255, 255, 0.459);
+	border: 11px solid rgba(255, 255, 255, 0.459);
 	box-sizing: content-box;
 	backdrop-filter: blur(5px);
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
 }
+
 #window div {
 	border-radius: 10px;
-}
-</style>
+}</style>
