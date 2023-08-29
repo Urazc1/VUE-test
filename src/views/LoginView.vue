@@ -2,8 +2,12 @@
 import axios from "axios"
 import { onBeforeMount, ref } from "vue";
 import errorMsg from "@/components/ErrorMessage.vue";
+import posts from "@/js/post";
+import loading from "@/components/LoadingWindow.vue";
+
 let userName = "";
 let passWord = "";
+const loadStatus = ref(false)
 const errMsg = ref("")
 const errShow = ref(false)
 const nickName = ref();
@@ -23,10 +27,14 @@ async function login() {
 	if (userName == "") error("Please enter username")
 	else if (passWord == "") error("Please enter password")
 	else {
+		loadStatus.value = true;
 		let result = await post()
-		res.value = result
+		//let result = await posts("login", {user: userName,pwd: passWord})
+		loadStatus.value = false;
+		nickName.value = result.nickname
 	}
 }
+
 
 async function post() {
 	let fetch = () => {
@@ -38,6 +46,8 @@ async function post() {
 				console.log(res.data);
 				resolve(res.data)
 			}).catch(err => {
+				error(err);
+				loadStatus.value = false;
 				console.log("获取数据失败" + err);
 			})
 		})
@@ -48,7 +58,7 @@ async function post() {
 
 <template>
 	<div id="canvas">
-		<h1>{{ res }}</h1>
+		<h1>{{ nickName }}</h1>
 		<div id="login">
 			<div>
 				<input v-model="userName" />
@@ -57,6 +67,7 @@ async function post() {
 			</div>
 		</div>
 		<Teleport to="body">
+			<loading v-show="loadStatus" />
 			<errorMsg v-show="errShow" :msg=errMsg />
 		</Teleport>
 	</div>

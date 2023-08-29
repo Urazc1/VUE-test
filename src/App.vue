@@ -2,26 +2,45 @@
 import { onMounted, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 
-
-
+let links
+const blurAmount = ref("0")
+const roundCorner = ref("0px")
+const navWidth = ref("100%")
+const navTop = ref("0")
 onMounted(() => {
-  
+  if (window.location.pathname == '/') blurC();
+  else blurF();
+  links = document.getElementsByClassName("routerLink")
+  links[0].addEventListener("click", () => { blurC(); })
+  links[1].addEventListener("click", () => { blurF(); })
+  links[2].addEventListener("click", () => { blurF(); })
 })
 
+function blurF() { 
+  blurAmount.value = "1" 
+  roundCorner.value = "20px"
+  navWidth.value = "60%"
+  navTop.value = "10px"
+}
+function blurC() { 
+  blurAmount.value = "0" 
+  roundCorner.value = "0px"
+  navWidth.value = "100%"
+  navTop.value = "0px"
+}
 </script>
 
 <template>
-  <header id="header">
-    <div id="navBar">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/login">login</RouterLink>
-      </nav>
-    </div>
+  <header id="navBar" :style="{width: navWidth,borderRadius: roundCorner,top: navTop}">
+    <nav>
+      <RouterLink to="/" class="routerLink">Home</RouterLink>
+      <RouterLink to="/about" class="routerLink">About</RouterLink>
+      <RouterLink to="/login" class="routerLink">login</RouterLink>
+    </nav>
   </header>
   <div id="bgContainer">
-    <div id="bg" style="background: white"></div>
+    <img id="bg" style="filter: blur(20px);" :style="{ opacity: blurAmount }" src="./assets/bg.jpg">
+    <img id="bg" style="z-index: -1;" src="./assets/bg.jpg">
   </div>
   <div id="router">
     <RouterView v-slot="{ Component }">
@@ -38,19 +57,20 @@ onMounted(() => {
 
 <style scoped>
 #router {
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    z-index: 0;
-    filter: blur(0px);
-    padding-top: 0px;
-    overflow: scroll;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  filter: blur(0px);
+  padding-top: 0px;
+  overflow: scroll;
 }
+
 #bgContainer {
   position: absolute;
   overflow: hidden;
@@ -64,89 +84,73 @@ onMounted(() => {
   transition: 0.7s;
   top: 0;
   left: 0;
-  width: 2000px;
-  height: 1000px;
+  width: 100%;
   position: absolute;
-  /* background: linear-gradient(217deg, #833ab4, rgba(255, 0, 0, 0) 70.71%),
-    linear-gradient(127deg, #fd1d1d, rgba(0, 255, 0, 0) 70.71%),
-    linear-gradient(336deg, #fcb045, rgba(0, 0, 255, 0) 70.71%);
-  ; */
+}
+
+#navBar {
+  position: fixed;
+  top: 0;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  transition: 0.7s;
+  background: transparent;
+  width: 60%;
+  display: flex;
+  align-items: center;
+  z-index: 5;
 }
 
 @media (min-width: 768px) {
-  #router {
-    align-items: center;
-    justify-content: center;
-    z-index: 0;
-    filter: blur(0px);
-  }
   #navBar {
-    position: fixed;
-    top: 0;
-    left: 0px;
-    transition: 0.7s;
-    background: transparent;
     height: 65px;
-    display: flex;
-    align-items: center;
     flex-wrap: wrap;
-    width: 100%;
     overflow: hidden;
+ 
   }
+
   #navBar::before {
     content: "";
     position: absolute;
     width: 100%;
     height: 100%;
     -webkit-backdrop-filter: saturate(150%) blur(5px);
-    backdrop-filter: saturate(190%) blur(5px);
+    backdrop-filter: saturate(150%) blur(5px);
     backface-visibility: hidden;
     z-index: -1;
     top: -1px;
     box-shadow: 1px 1px 5px grey;
   }
+
   nav {
     width: 100%;
     font-size: 12px;
     text-align: center;
     background: transparent;
   }
-  header {
-    line-height: 1.5;
-    top: 0;
-    left: 50px;
-    z-index: 1;
-    height: 100%;
-    width: 100px;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+
+  #router {
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    filter: blur(0px);
   }
 }
 
 @media (max-width: 767px) {
   #navBar {
-    position: fixed;
-    top: 0px;
-    left: 0;
-    transition: 0.7s;
-    width: 100%;
-    background: transparent;
+
     height: 50px;
-    display: flex;
-    align-items: center;
+
   }
-  header {
-    width: 100%;
-    position: fixed;
-    line-height: 1.5;
-    top: 0;
-    z-index: 1;
-  }
+
   nav {
     width: 100%;
     font-size: 12px;
     text-align: center;
   }
+
   #router {
     display: block;
     width: 100%;
@@ -184,5 +188,4 @@ nav a {
   transform: translateY(-100px);
   /* filter: blur(5px); */
   opacity: 0;
-}
-</style>
+}</style>

@@ -16,7 +16,7 @@ onMounted(() => {
       <p style="position: absolute;bottom: 0;left: 0;">{{ msg }}</p>
     </div>
     <div id="img">
-      <img src="../assets/landscape_230807.jpg">
+      
     </div>
   </div>
 </template>
