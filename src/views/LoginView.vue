@@ -1,17 +1,40 @@
 <script setup lang="ts">
 import axios from "axios"
 import { onBeforeMount, ref } from "vue";
+import errorMsg from "@/components/ErrorMessage.vue";
+import posts from "@/js/post";
+import loading from "@/components/LoadingWindow.vue";
 
 let userName = "";
 let passWord = "";
+const loadStatus = ref(false)
+const errMsg = ref("")
+const errShow = ref(false)
 const nickName = ref();
+const res = ref();
 onBeforeMount(async () => {
 
 })
+function error(err: string) {
+	errShow.value = true
+	errMsg.value = err
+	setTimeout(() => {
+		errShow.value = false
+	}, 2000)
+}
 
 async function login() {
-	let result = await post()
+	if (userName == "") error("Please enter username")
+	else if (passWord == "") error("Please enter password")
+	else {
+		loadStatus.value = true;
+		let result = await post()
+		//let result = await posts("login", {user: userName,pwd: passWord})
+		loadStatus.value = false;
+		nickName.value = result.nickname
+	}
 }
+
 
 async function post() {
 	let fetch = () => {
@@ -23,6 +46,8 @@ async function post() {
 				console.log(res.data);
 				resolve(res.data)
 			}).catch(err => {
+				error(err);
+				loadStatus.value = false;
 				console.log("获取数据失败" + err);
 			})
 		})
@@ -34,13 +59,17 @@ async function post() {
 <template>
 	<div id="canvas">
 		<h1>{{ nickName }}</h1>
-		<div id="window">
+		<div id="login">
 			<div>
 				<input v-model="userName" />
 				<input type="password" v-model="passWord" />
 				<button @click="login">Login</button>
 			</div>
 		</div>
+		<Teleport to="body">
+			<loading v-show="loadStatus" />
+			<errorMsg v-show="errShow" :msg=errMsg />
+		</Teleport>
 	</div>
 </template>
 
@@ -52,7 +81,6 @@ input {
 	background: transparent;
 	border: none;
 	border-bottom: 2px solid green;
-
 }
 
 input:focus {
@@ -78,7 +106,7 @@ input::after {
 	align-items: center;
 }
 
-#window {
+#login {
 	background-color: transparent;
 	display: flex;
 	width: 300px;
@@ -91,6 +119,7 @@ input::after {
 	align-items: center;
 }
 
-#window div {
+#login div {
 	border-radius: 10px;
-}</style>
+}
+</style>
