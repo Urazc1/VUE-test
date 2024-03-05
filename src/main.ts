@@ -6,7 +6,7 @@ import App from './App.vue'
 import router from './router'
 
 import nprogress from 'nprogress'
-import 'src/assets/nprogess.css';
+import '@/assets/nprogess.css'
 
 const app = createApp(App)
 
