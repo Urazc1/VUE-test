@@ -39,7 +39,7 @@ async function login() {
 async function post() {
 	let fetch = () => {
 		return new Promise(resolve => {
-			axios.post('http://localhost:8080/login', {
+			axios.post('http://123.56.43.39:8080/login', {
 				userName: userName,
 				passWord: passWord
 			}).then(res => {

@@ -23,7 +23,7 @@ async function get() {
   NProgress.start();
   const fetch = () => {
     return new Promise(resolve => {
-      axios.get('http://localhost:8080/user',
+      axios.get('http://123.56.43.39:8080/user',
         {
           params: {
             page: currentPage.value
