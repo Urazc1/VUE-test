@@ -31,7 +31,7 @@ async function login() {
 		let result = await post()
 		//let result = await posts("login", {user: userName,pwd: passWord})
 		loadStatus.value = false;
-		nickName.value = result.nickname
+		nickName.value = result
 	}
 }
 
@@ -39,12 +39,12 @@ async function login() {
 async function post() {
 	let fetch = () => {
 		return new Promise(resolve => {
-			axios.post('https://localhost:7998/login', {
-				user: userName,
-				pwd: passWord
+			axios.post('http://localhost:8080/login', {
+				userName: userName,
+				passWord: passWord
 			}).then(res => {
-				console.log(res.data);
-				resolve(res.data)
+				console.log(res.data.realname);
+				resolve(res.data.realname)
 			}).catch(err => {
 				error(err);
 				loadStatus.value = false;

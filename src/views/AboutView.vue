@@ -3,11 +3,14 @@ import { onBeforeMount, onMounted, ref } from 'vue';
 import axios from "axios"
 import loading from '@/components/LoadingWindow.vue'
 import errorMsg from '@/components/ErrorMessage.vue'
+import NProgress from 'nprogress'
 
 const res = ref()
 const loadStatus = ref(false)
 const errShow = ref(false)
 const errMsg = ref("Unknown Error")
+const currentPage = ref(1);
+const totalPage = ref(0);
 
 onBeforeMount(async () => {
   res.value = await get()
@@ -17,39 +20,65 @@ onMounted(() => {
 })
 
 async function get() {
-  let fetch = () => {
+  NProgress.start();
+  const fetch = () => {
     return new Promise(resolve => {
-      axios.get('https://localhost:7998/user').then(res => {
-        console.log(res.data);
-        resolve(res.data)
-        loadStatus.value = false
-      }).catch(err => {
-        console.log("获取数据失败" + err);
-        loadStatus.value = false
-        errShow.value = true
-        errMsg.value = err
-        setTimeout(() => {
-          errShow.value = false
-        },2000)
-      })
+      axios.get('http://localhost:8080/user',
+        {
+          params: {
+            page: currentPage.value
+          }
+        }).then(res => {
+          NProgress.done();
+          console.log(res.data);
+          resolve(res.data.records)
+          totalPage.value = res.data.pages
+          loadStatus.value = false
+        }).catch(err => {
+          console.log("获取数据失败" + err);
+          loadStatus.value = false
+          errShow.value = true
+          errMsg.value = err
+          setTimeout(() => {
+            errShow.value = false
+          }, 2000)
+        })
     })
   }
   return await fetch()
 }
+
+async function pageUp() {
+  currentPage.value++;
+  res.value = await get()
+  console.log(currentPage.value);
+}
+async function pageDown() {
+  currentPage.value--;
+  res.value = await get()
+  console.log(currentPage.value);
+}
+
 </script>
 
 <template>
   <div class="about" style="position: absolute;height: 100%;">
     <div style="position: relative;top: 200px;">
+      <div>
+        <button @click="pageDown()">←</button>
+        <p>{{ currentPage }} / {{ totalPage }}</p>
+        <button @click="pageUp()">→</button>
+      </div>
       <h1>This is an about page</h1>
     </div>
     <div style="position: relative;top: 300px;">
       <TransitionGroup name="list">
         <div class="listDiv" v-for="(list, index) in res" :key="index">
-          {{ list.id }} | {{ list.name }}
+          {{ list.id }} | {{ list.username }}
         </div>
       </TransitionGroup>
     </div>
+
     <Teleport to="body">
       <loading v-show="loadStatus" />
       <errorMsg v-show="errShow" :msg=errMsg />

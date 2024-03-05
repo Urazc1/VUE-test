@@ -8,6 +8,7 @@ const roundCorner = ref("0px")
 const navWidth = ref("100%")
 const navTop = ref("0")
 onMounted(() => {
+  
   if (window.location.pathname == '/') blurC();
   else blurF();
   links = document.getElementsByClassName("routerLink")
@@ -50,7 +51,6 @@ function blurC() {
     </RouterView>
   </div>
   <footer>
-
   </footer>
 </template>
 
@@ -107,7 +107,6 @@ function blurC() {
     height: 65px;
     flex-wrap: wrap;
     overflow: hidden;
- 
   }
 
   #navBar::before {
@@ -140,9 +139,7 @@ function blurC() {
 
 @media (max-width: 767px) {
   #navBar {
-
     height: 50px;
-
   }
 
   nav {
