@@ -7,39 +7,47 @@ const blurAmount = ref("0")
 const roundCorner = ref("0px")
 const navWidth = ref("100%")
 const navTop = ref("0")
+const bgH = ref("100%")
+const bgW = ref("100%")
+const bgRight = ref("0")
+
 onMounted(() => {
-  
+
   if (window.location.pathname == '/') blurC();
   else blurF();
   links = document.getElementsByClassName("routerLink")
-  links[0].addEventListener("click", () => { blurC(); })
-  links[1].addEventListener("click", () => { blurF(); })
-  links[2].addEventListener("click", () => { blurF(); })
+  links[0].addEventListener("click", () => { blurC();bgRight.value = "0"})
+  links[1].addEventListener("click", () => { blurF();bgRight.value = "0"})
+  links[2].addEventListener("click", () => { blurC();bgRight.value = "100%"})
 })
 
-function blurF() { 
-  blurAmount.value = "1" 
+function blurF() {
+  blurAmount.value = "1"
   roundCorner.value = "20px"
   navWidth.value = "60%"
   navTop.value = "10px"
+  bgH.value = "450px"
+  // bgW.value = "600px"
 }
-function blurC() { 
-  blurAmount.value = "0" 
+function blurC() {
+  blurAmount.value = "0"
   roundCorner.value = "0px"
   navWidth.value = "100%"
   navTop.value = "0px"
+  bgH.value = "100%"
+  // bgW.value = "100%"
 }
 </script>
 
 <template>
-  <header id="navBar" :style="{width: navWidth,borderRadius: roundCorner,top: navTop}">
+  <header id="navBar" :style="{ width: navWidth, borderRadius: roundCorner, top: navTop}">
     <nav>
       <RouterLink to="/" class="routerLink">Home</RouterLink>
       <RouterLink to="/about" class="routerLink">About</RouterLink>
       <RouterLink to="/login" class="routerLink">login</RouterLink>
     </nav>
   </header>
-  <div id="bgContainer">
+  <div id="bgContainer" :style="{ width: bgW, height: bgH, paddingRight: bgRight}">
     <img id="bg" style="filter: blur(20px);" :style="{ opacity: blurAmount }" src="./assets/bg.jpg">
     <img id="bg" style="z-index: -1;" src="./assets/bg.jpg">
   </div>
@@ -74,17 +82,30 @@ function blurC() {
 #bgContainer {
   position: absolute;
   overflow: hidden;
-  width: 100%;
-  height: 100%;
-  top: 0;
+  /* width: 100%;
+  height: 100%; */
   left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  transition: 
+    width 0.7s,
+    height 0.7s,
+    padding-right 0.7s;
+  
 }
 
 #bg {
   transition: 0.7s;
   top: 0;
-  left: 0;
-  width: 100%;
+
+  width: auto;
+  height: 100%;
   position: absolute;
 }
 
@@ -185,4 +206,5 @@ nav a {
   transform: translateY(-100px);
   /* filter: blur(5px); */
   opacity: 0;
-}</style>
+}
+</style>

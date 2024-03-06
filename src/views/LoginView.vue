@@ -2,7 +2,6 @@
 import axios from "axios"
 import { onBeforeMount, ref } from "vue";
 import errorMsg from "@/components/ErrorMessage.vue";
-import posts from "@/js/post";
 import loading from "@/components/LoadingWindow.vue";
 
 let userName = "";
@@ -12,9 +11,7 @@ const errMsg = ref("")
 const errShow = ref(false)
 const nickName = ref();
 const res = ref();
-onBeforeMount(async () => {
 
-})
 function error(err: string) {
 	errShow.value = true
 	errMsg.value = err
@@ -24,8 +21,8 @@ function error(err: string) {
 }
 
 async function login() {
-	if (userName == "") error("Please enter username")
-	else if (passWord == "") error("Please enter password")
+	if (userName === "") error("Please enter username")
+	else if (passWord === "") error("Please enter password")
 	else {
 		loadStatus.value = true;
 		let result = await post()
@@ -34,7 +31,6 @@ async function login() {
 		nickName.value = result
 	}
 }
-
 
 async function post() {
 	let fetch = () => {
