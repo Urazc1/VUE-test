@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import axios from "axios"
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, ref, defineModel } from "vue";
 import errorMsg from "@/components/ErrorMessage.vue";
 import loading from "@/components/LoadingWindow.vue";
 
-let userName = "";
-let passWord = "";
+let userName = ref("");
+let passWord = ref("");
 const loadStatus = ref(false)
 const errMsg = ref("")
 const errShow = ref(false)
@@ -21,8 +21,10 @@ function error(err: string) {
 }
 
 async function login() {
-	if (userName === "") error("Please enter username")
-	else if (passWord === "") error("Please enter password")
+	console.log(userName.value);
+	console.log(passWord.value);
+	if (userName.value === "") error("Please enter username")
+	else if (passWord.value === "") error("Please enter password")
 	else {
 		loadStatus.value = true;
 		let result = await post()
@@ -36,11 +38,11 @@ async function post() {
 	let fetch = () => {
 		return new Promise(resolve => {
 			axios.post('http://123.56.43.39:8080/login', {
-				userName: userName,
-				passWord: passWord
+				userName: userName.value,
+				passWord: passWord.value
 			}).then(res => {
-				console.log(res.data.realname);
-				resolve(res.data.realname)
+				console.log(res.data.realName);
+				resolve(res.data.realName)
 			}).catch(err => {
 				error(err);
 				loadStatus.value = false;
@@ -52,13 +54,17 @@ async function post() {
 }
 </script>
 
+<style>
+
+</style>
+
 <template>
 	<div id="canvas">
-		<h1>{{ nickName }}</h1>
+		<div>{{ nickName }}</div>
 		<div id="login">
 			<div>
-				<input v-model="userName" />
-				<input type="password" v-model="passWord" />
+				<md-outlined-text-field label="用户名" v-model="userName"></md-outlined-text-field>
+				<md-outlined-text-field label="密码" type="password" v-model="passWord"/>
 				<button @click="login">Login</button>
 			</div>
 		</div>
@@ -70,44 +76,20 @@ async function post() {
 </template>
 
 <style scoped>
-input {
-	position: relative;
-	width: 80%;
-	height: 30px;
-	background: transparent;
-	border: none;
-	border-bottom: 2px solid green;
-}
-
-input:focus {
-	outline: none;
-}
-
-input::after {
-	content: '544354';
-	position: absolute;
-	top: 0;
-	left: 0;
-	border-top: 2px solid red;
-	width: 100%;
-	height: 30px;
-	background: pink;
-	z-index: 5;
-}
-
 #canvas {
 	position: absolute;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	right: 100px;
 }
 
 #login {
 	background-color: transparent;
 	display: flex;
-	width: 300px;
-	height: 230px;
-	border: 11px solid rgba(255, 255, 255, 0.459);
+	width: 400px;
+	height: 330px;
+	border: 1px solid rgba(255, 255, 255, 0.459);
 	box-sizing: content-box;
 	backdrop-filter: blur(5px);
 	flex-wrap: wrap;
@@ -116,6 +98,16 @@ input::after {
 }
 
 #login div {
-	border-radius: 10px;
+	height: 50%;
+	border: 1px solid aqua;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+md-outlined-text-field {
+	width: 90%;
+	transition: all 1s;
 }
 </style>

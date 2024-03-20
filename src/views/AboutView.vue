@@ -36,6 +36,7 @@ async function get() {
           loadStatus.value = false
         }).catch(err => {
           console.log("获取数据失败" + err);
+          NProgress.done();
           loadStatus.value = false
           errShow.value = true
           errMsg.value = err

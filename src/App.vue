@@ -2,8 +2,9 @@
 import { onMounted, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 
+
 let links
-const blurAmount = ref("0")
+const blurAmount = ref(0)
 const roundCorner = ref("0px")
 const navWidth = ref("100%")
 const navTop = ref("0")
@@ -19,18 +20,19 @@ onMounted(() => {
   links[0].addEventListener("click", () => { blurC();bgRight.value = "0"})
   links[1].addEventListener("click", () => { blurF();bgRight.value = "0"})
   links[2].addEventListener("click", () => { blurC();bgRight.value = "100%"})
+  links[3].addEventListener("click", () => { blurC();bgRight.value = "100%"})
 })
 
 function blurF() {
-  blurAmount.value = "1"
+  blurAmount.value = 1
   roundCorner.value = "20px"
   navWidth.value = "60%"
   navTop.value = "10px"
-  bgH.value = "450px"
+  bgH.value = "90%"
   // bgW.value = "600px"
 }
 function blurC() {
-  blurAmount.value = "0"
+  blurAmount.value = 0
   roundCorner.value = "0px"
   navWidth.value = "100%"
   navTop.value = "0px"
@@ -45,11 +47,12 @@ function blurC() {
       <RouterLink to="/" class="routerLink">Home</RouterLink>
       <RouterLink to="/about" class="routerLink">About</RouterLink>
       <RouterLink to="/login" class="routerLink">login</RouterLink>
+      <RouterLink to="/wave" class="routerLink">WaveSurfer</RouterLink>
     </nav>
   </header>
   <div id="bgContainer" :style="{ width: bgW, height: bgH, paddingRight: bgRight}">
-    <img id="bg" style="filter: blur(20px);" :style="{ opacity: blurAmount }" src="./assets/bg.jpg">
-    <img id="bg" style="z-index: -1;" src="./assets/bg.jpg">
+    <img id="bg" style="filter: blur(10px);" :style="{ opacity: blurAmount }" src="./assets/logo.png">
+    <img id="bg" style="z-index: -1;" :style="{ opacity: 1 - blurAmount }" src="./assets/logo.png">
   </div>
   <div id="router">
     <RouterView v-slot="{ Component }">
@@ -62,8 +65,23 @@ function blurC() {
   </footer>
 </template>
 
-
 <style scoped>
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+    filter: blur(20px);
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0px);
+
+  }
+}
+
+
 #router {
   position: absolute;
   left: 0;
@@ -97,6 +115,9 @@ function blurC() {
     width 0.7s,
     height 0.7s,
     padding-right 0.7s;
+
+    animation-duration: 1.5s;
+  animation-name: zoomIn;
   
 }
 
@@ -121,6 +142,7 @@ function blurC() {
   display: flex;
   align-items: center;
   z-index: 5;
+  background: #A1D0C7;
 }
 
 @media (min-width: 768px) {
@@ -128,6 +150,7 @@ function blurC() {
     height: 65px;
     flex-wrap: wrap;
     overflow: hidden;
+    box-shadow: 0px 2px 5px grey;
   }
 
   #navBar::before {
@@ -140,7 +163,7 @@ function blurC() {
     backface-visibility: hidden;
     z-index: -1;
     top: -1px;
-    box-shadow: 1px 1px 5px grey;
+    
   }
 
   nav {

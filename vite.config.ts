@@ -7,7 +7,14 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   base: './',
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          // 将所有带短横线的标签名都视为自定义元素
+          isCustomElement: (tag) => tag.includes('md-')
+        }
+      }
+    }),
   ],
   resolve: {
     alias: {

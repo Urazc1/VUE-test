@@ -25,7 +25,7 @@ a,
   body {
     display: flex;
     place-items: center;
-    background: black;
+    background: rgb(186 207 131);
   }
 
   #app {

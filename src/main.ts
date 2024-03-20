@@ -6,6 +6,8 @@ import App from './App.vue'
 import router from './router'
 
 import nprogress from 'nprogress'
+import '@material/web/all'
+import '@/assets/light.css'
 import '@/assets/nprogess.css'
 
 const app = createApp(App)
