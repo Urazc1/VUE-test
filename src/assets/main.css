@@ -1,6 +1,11 @@
 @import './base.css';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
 
 #app {
+  font-family: "Noto Serif SC", serif;
+  font-weight: 400;
+  font-style: normal;
+
   max-width: 1280px;
   margin: 0 auto;
   font-weight: normal;
@@ -25,7 +30,7 @@ a,
   body {
     display: flex;
     place-items: center;
-    background: rgb(186 207 131);
+    background: linear-gradient(45deg,#536976,#BBD2C5);
   }
 
   #app {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { RouterLink, RouterView } from 'vue-router'
-
+import { RouterLink, RouterView } from 'vue-router';
+import SimWindow from "@/components/sim-window.vue";
 
 let links
 const blurAmount = ref(0)
@@ -50,6 +50,7 @@ function blurC() {
       <RouterLink to="/wave" class="routerLink">WaveSurfer</RouterLink>
     </nav>
   </header>
+
   <div id="bgContainer" :style="{ width: bgW, height: bgH, paddingRight: bgRight}">
     <img id="bg" style="filter: blur(10px);" :style="{ opacity: blurAmount }" src="./assets/logo.png">
     <img id="bg" style="z-index: -1;" :style="{ opacity: 1 - blurAmount }" src="./assets/logo.png">
@@ -61,8 +62,6 @@ function blurC() {
       </Transition>
     </RouterView>
   </div>
-  <footer>
-  </footer>
 </template>
 
 <style scoped>
@@ -80,7 +79,6 @@ function blurC() {
 
   }
 }
-
 
 #router {
   position: absolute;
@@ -111,6 +109,7 @@ function blurC() {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  z-index: -99;
   transition: 
     width 0.7s,
     height 0.7s,
@@ -137,12 +136,11 @@ function blurC() {
   right: 0px;
   margin: auto;
   transition: 0.7s;
-  background: transparent;
   width: 60%;
   display: flex;
   align-items: center;
   z-index: 5;
-  background: #A1D0C7;
+  background: transparent;
 }
 
 @media (min-width: 768px) {
@@ -163,7 +161,6 @@ function blurC() {
     backface-visibility: hidden;
     z-index: -1;
     top: -1px;
-    
   }
 
   nav {
@@ -230,4 +227,6 @@ nav a {
   /* filter: blur(5px); */
   opacity: 0;
 }
+
 </style>
+

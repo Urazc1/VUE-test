@@ -8,7 +8,7 @@ const statusIcon = ref("⫸")
 
 async function getPeaks() {
     let peaks: never[] = [];
-    await axios.get('http://audio.dustcolor.asia/test.json').then(
+    await axios.get('http://audio.dustcolor.asia/Cheerleader.json').then(
         function (res) {
             peaks = res.data.data
         }
@@ -19,15 +19,15 @@ async function getPeaks() {
 
 const ctx = document.createElement('canvas').getContext('2d')
 //Playing Gradient
-const gradientUp = ctx.createLinearGradient(0, 0, 0, 70)
-gradientUp.addColorStop(0, 'rgb(255, 253, 137)')
-gradientUp.addColorStop(0.7, 'rgb(255, 255, 255)')
-gradientUp.addColorStop(1, 'rgb(176, 255, 86)')
+const gradientUp = ctx?.createLinearGradient(0, 0, 0, 70)
+gradientUp?.addColorStop(0, 'rgb(255, 253, 137)')
+gradientUp?.addColorStop(0.7, 'rgb(255, 255, 255)')
+gradientUp?.addColorStop(1, 'rgb(176, 255, 86)')
 //Played Gradient
-const gradientDown = ctx.createLinearGradient(0, 0, 0, 70)
-gradientDown.addColorStop(1, 'rgb(255, 253, 137)')
-gradientDown.addColorStop(0.7, 'rgb(0, 0, 0)')
-gradientDown.addColorStop(0, 'rgb(176, 255, 86)')
+const gradientDown = ctx?.createLinearGradient(0, 0, 0, 70)
+gradientDown?.addColorStop(1, 'rgb(255, 253, 137)')
+gradientDown?.addColorStop(0.7, 'rgb(0, 0, 0)')
+gradientDown?.addColorStop(0, 'rgb(176, 255, 86)')
 
 const init = async () => {
     ws.value = WaveSurfer.create({
@@ -38,7 +38,7 @@ const init = async () => {
         progressColor: gradientDown,
         height: "auto",
         width: 500,
-        url: "http://audio.dustcolor.asia/test.ogg",
+        url: "http://audio.dustcolor.asia/Cheerleader.mp3",
         peaks: await getPeaks(),
         barWidth: 2,
         // Optionally, specify the spacing between bars
